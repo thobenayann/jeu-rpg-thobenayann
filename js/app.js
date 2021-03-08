@@ -60,6 +60,20 @@ var app = {
             }
         }
 
+    },
+
+    // Une fonction qui efface tout ce qui est dans notre plateau de jeu
+    clearBoard: function () {
+        while (app.boardNode.firstChild) {
+            app.boardNode.removeChild(app.boardNode.firstChild);
+        }
+    },
+
+    // Une fonction qui va effacer notre plateau de jeu PUIS le redessiner
+    // Avec des valeurs d'index du joueur différentes
+    redrawBoard: function () {
+        app.clearBoard();
+        app.drawBoard();
     }
   };
   
