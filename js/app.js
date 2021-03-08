@@ -6,7 +6,11 @@ var app = {
     player: {
         x: 0,
         y: 0,
-        direct: 'right'
+        direction: 'right',
+
+        // directionIndex correspond à la direction du joueurs
+        // dans le tableau availableDirections
+        directionIndex: 0
     },
     
     // définition de la case à atteindre
@@ -14,6 +18,15 @@ var app = {
         x: 5,
         y: 3
     },
+
+    // On donne les directions possible du joueur
+    // On commence par 'right' car c'est la direction par défaut du joueur
+    availableDirections : [
+        'right',
+        'bottom',
+        'left',
+        'top'
+    ],
 
     // déclaration de la propriété qui va créer notre plateau de jeu
     boardNode: null,
@@ -55,6 +68,8 @@ var app = {
                     // On ajoute une div avec la classe player dans la cellule
                     const playerNode = document.createElement('div');
                     playerNode.classList.add('player');
+                    // Ici on gère l'ajout d'une classe CSS conditionnée en fonction de la direction du joueur
+                    playerNode.classList.add('direction-' + app.player.direction);
                     cellNode.appendChild(playerNode);
                 }
             }
@@ -74,6 +89,50 @@ var app = {
     redrawBoard: function () {
         app.clearBoard();
         app.drawBoard();
+    },
+
+    // Une fonction de logique du jeu
+    // Tourner à droite correspond à prendre l'élément suivant dans mon tableau
+    // app.availableDirections
+    turnRight: function () {
+        // Tourner à droite correspond à prendre l'élément suivant dans mon tableau
+        // app.availableDirections
+        console.log('Avant de tourner :');
+        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
+
+        app.player.directionIndex++;
+
+        // Si je sors du tableau (direction top + turnRight)
+        // Alors je reviens au début du tableau, l'index de la direction du joueur repasse à 0
+        if (app.player.directionIndex >= app.availableDirections.length) {
+            app.player.directionIndex = 0;
+        }
+
+        app.player.direction = app.availableDirections[app.player.directionIndex];
+        console.log('Après de tourner :');
+        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
+
+        app.redrawBoard();
+    },
+
+    turnLeft: function () {
+        console.log('Avant de tourner :');
+        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
+
+        app.player.directionIndex--;
+
+        // Si je sors du tableau (direction right + turnLeft)
+        // donc par le haut cette fois si
+        // Alors je reviens au début du tableau, l'index de la direction du joueur repasse à 0
+        if (app.player.directionIndex < 0) {
+            app.player.directionIndex = app.availableDirections.length - 1;
+        }
+
+        app.player.direction = app.availableDirections[app.player.directionIndex];
+        console.log('Après de tourner :');
+        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
+
+        app.redrawBoard();
     }
   };
   

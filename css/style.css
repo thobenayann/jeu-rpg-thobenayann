@@ -18,9 +18,9 @@ body {
     background-image: url("../img/background-goldmine.png");
     background-repeat: no-repeat;
     background-size: cover;
-  }
+}
   
-  .player {
+.player {
     width: 0;
     height: 0;
     border-style: solid;
@@ -28,11 +28,25 @@ body {
     border-color: transparent transparent transparent blue;
   
     margin: 20px;
-  }
-  
-#board {
-
 }
+
+/* Ici je défini la façon visuelle du changement de direction du joueur */
+.player.direction-right {
+    transform : rotate(0deg);
+}
+
+.player.direction-bottom {
+    transform : rotate(90deg);
+}
+
+.player.direction-left {
+    transform : rotate(180deg);
+}
+
+.player.direction-top {
+    transform : rotate(270deg);
+}
+
 
 .row {
     display: flex;
