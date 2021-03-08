@@ -1,4 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     background: #ddd;
     background-image: url("../img/background-goldmine.png");
     background-repeat: no-repeat;
@@ -15,3 +30,21 @@ body {
     margin: 20px;
   }
   
+#board {
+
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 70px;
+    height: 70px;
+    border: solid 1px rgba(0, 0, 0, .12);
+    background-color: #FFF;
+}
+
+.target-cell {
+    background-color: rgb(99, 255, 79);
+}
