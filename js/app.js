@@ -44,7 +44,8 @@ var app = {
 
       // on branche nos écouteurs d'événements sur le body
       document.body.addEventListener('keyup', app.onKeyboardEvent);
-      document.body.addEventListener('click', app.restartGame);
+      document.getElementById('button-restart').addEventListener('click', app.restartGame);
+
     },
 
     drawBoard: function () {
