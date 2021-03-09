@@ -34,6 +34,8 @@ var app = {
     // déclaration d'un booléen pour la gestion de la fin de partie
     gameOver: false,
 
+
+
     init: function () {
       console.log('init !');
       app.boardNode = document.getElementById('board');
@@ -80,9 +82,6 @@ var app = {
                 }
             }
         }
-
-        // On vérifie si game over vaut true à chaque fois que l'on redessine la grille
-        app.checkIfGameOver();
     },
 
     // Une fonction qui efface tout ce qui est dans notre plateau de jeu
@@ -97,6 +96,7 @@ var app = {
     redrawBoard: function () {
         app.clearBoard();
         app.drawBoard();
+        app.checkIfGameOver();
     },
 
     // Une fonction de logique du jeu
