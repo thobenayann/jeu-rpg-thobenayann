@@ -42,8 +42,9 @@ var app = {
       app.boardNode = document.getElementById('board');
       app.drawBoard();
 
-      // on branche notre écouteur d'événement sur le body
+      // on branche nos écouteurs d'événements sur le body
       document.body.addEventListener('keyup', app.onKeyboardEvent);
+      document.body.addEventListener('click', app.restartGame);
     },
 
     drawBoard: function () {
@@ -212,7 +213,18 @@ var app = {
             alert(`Bravo, vous avez gagné avec ${app.nbMoves} déplacements!!!`);
             app.gameOver = true;
         }
-    }
+    },
+
+    // Recommencer une partie
+    restartGame: function () {
+        app.player.x = 0,
+        app.player.y = 0,
+        app.player.direction = 'right',
+        app.player.directionIndex = 0,
+        app.nbMoves = 0
+        app.gameOver = false;
+        app.redrawBoard();
+    },
   };
   
   document.addEventListener('DOMContentLoaded', app.init);
