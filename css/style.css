@@ -62,5 +62,6 @@ body {
 }
 
 .target-cell {
-    background-color: rgb(99, 255, 79);
+    background-image: url("../img/goldmine.png");
+    background-repeat: no-repeat;
 }

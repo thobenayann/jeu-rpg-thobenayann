@@ -34,7 +34,8 @@ var app = {
     // déclaration d'un booléen pour la gestion de la fin de partie
     gameOver: false,
 
-
+    // Compteur du nombre de déplacements
+    nbMoves: 0,
 
     init: function () {
       console.log('init !');
@@ -121,6 +122,9 @@ var app = {
         // je met à jour la propriété player.direction
         app.player.direction = app.availableDirections[app.player.directionIndex];
 
+        // j'augmente mon nombre de déplacements
+        app.nbMoves++;
+
         // on pense à redraw pour avoir instantanément le résultat
         app.redrawBoard();
     },
@@ -140,7 +144,10 @@ var app = {
         
             // je met à jour la propriété player.direction
             app.player.direction = app.availableDirections[app.player.directionIndex];
-        
+
+            // j'augmente mon nombre de déplacements
+            app.nbMoves++;
+
             app.redrawBoard();
         }
     },
@@ -175,6 +182,9 @@ var app = {
             app.player.y = 0;
         }
 
+        // j'augmente mon nombre de déplacements
+        app.nbMoves++;
+
         app.redrawBoard();
     },
 
@@ -199,7 +209,7 @@ var app = {
         // Donc si il se trouve sur la case targetCell
         // donc sur les mêmes coordonnées x et y
         if (app.player.x === app.targetCell.x && app.player.y === app.targetCell.y) {
-            alert('Bravo, c\'est gagné !!!');
+            alert(`Bravo, vous avez gagné avec ${app.nbMoves} déplacements!!!`);
             app.gameOver = true;
         }
     }
