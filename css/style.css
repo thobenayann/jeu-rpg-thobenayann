@@ -9,6 +9,11 @@ html, body {
     padding: 0;
 }
 
+#board {
+    box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+    border: 3px solid grey;
+}
+
 body {
     display: flex;
     justify-content: center;
