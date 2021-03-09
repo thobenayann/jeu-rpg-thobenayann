@@ -73,7 +73,7 @@ body {
     background-repeat: no-repeat;
 }
 
-button-restart {
+#button-restart {
     margin-top: 2em;
     font-size: 1em;
     border-radius: 1em;
