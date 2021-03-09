@@ -31,10 +31,16 @@ var app = {
     // déclaration de la propriété qui va créer notre plateau de jeu
     boardNode: null,
 
+    // déclaration d'un booléen pour la gestion de la fin de partie
+    gameOver: false,
+
     init: function () {
       console.log('init !');
       app.boardNode = document.getElementById('board');
       app.drawBoard();
+
+      // on branche notre écouteur d'événement sur le body
+      document.body.addEventListener('keyup', app.onKeyboardEvent);
     },
 
     drawBoard: function () {
@@ -75,6 +81,8 @@ var app = {
             }
         }
 
+        // On vérifie si game over vaut true à chaque fois que l'on redessine la grille
+        app.checkIfGameOver();
     },
 
     // Une fonction qui efface tout ce qui est dans notre plateau de jeu
@@ -95,11 +103,13 @@ var app = {
     // Tourner à droite correspond à prendre l'élément suivant dans mon tableau
     // app.availableDirections
     turnRight: function () {
+        // Si gameOver vaut true, je ne dois plus pouvoir exécuter les fonctions de mouvement
+        if (app.gameOver) {
+            return;
+        }
+
         // Tourner à droite correspond à prendre l'élément suivant dans mon tableau
         // app.availableDirections
-        console.log('Avant de tourner :');
-        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
-
         app.player.directionIndex++;
 
         // Si je sors du tableau (direction top + turnRight)
@@ -108,31 +118,90 @@ var app = {
             app.player.directionIndex = 0;
         }
 
+        // je met à jour la propriété player.direction
         app.player.direction = app.availableDirections[app.player.directionIndex];
-        console.log('Après de tourner :');
-        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
 
+        // on pense à redraw pour avoir instantanément le résultat
         app.redrawBoard();
     },
 
     turnLeft: function () {
-        console.log('Avant de tourner :');
-        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
+        // Si gameOver vaut true, je ne dois plus pouvoir exécuter les fonctions de mouvement
+        if (!app.gameOver) {
+            // je met à jour la propriété player.direction
+            app.player.directionIndex--;
 
-        app.player.directionIndex--;
+            // Si je sors du tableau (direction right + turnLeft)
+            // donc par le haut cette fois si
+            // Alors je reviens au début du tableau, l'index de la direction du joueur repasse à 0
+            if (app.player.directionIndex < 0) {
+                app.player.directionIndex = app.availableDirections.length - 1;
+            }
+        
+            // je met à jour la propriété player.direction
+            app.player.direction = app.availableDirections[app.player.directionIndex];
+        
+            app.redrawBoard();
+        }
+    },
 
-        // Si je sors du tableau (direction right + turnLeft)
-        // donc par le haut cette fois si
-        // Alors je reviens au début du tableau, l'index de la direction du joueur repasse à 0
-        if (app.player.directionIndex < 0) {
-            app.player.directionIndex = app.availableDirections.length - 1;
+    // On va créer ici notre fonction pour faire avancer le joueur
+    moveForward: function () {
+        if (app.gameOver) {
+            return;
+          }      
+
+        if (app.player.direction === 'right') {
+            app.player.x++;
+        } else if (app.player.direction === 'bottom') {
+            app.player.y++;
+        } else if (app.player.direction === 'left') {
+            app.player.x--;
+        } else if (app.player.direction === 'top') {
+            app.player.y--;
+        }
+        
+        // Ici on gère le cas ou le joueur sortirais du plateau en x (a gauche ou a droite)
+        if(app.player.x >= app.NB_CELLS) {
+            app.player.x = app.NB_CELLS - 1;
+        } else if(app.player.x < 0) {
+            app.player.x = 0;
         }
 
-        app.player.direction = app.availableDirections[app.player.directionIndex];
-        console.log('Après de tourner :');
-        console.log('Direction :', app.player.direction, 'index :', app.player.directionIndex);
+        // Ici on gère le cas ou le joueur sortirais du plateau en y (en haut ou en bas)
+        if(app.player.y >= app.NB_ROWS) {
+            app.player.y = app.NB_ROWS - 1;
+        } else if(app.player.y < 0) {
+            app.player.y = 0;
+        }
 
         app.redrawBoard();
+    },
+
+    // Ici on gère l'interaction avec le clavier
+    // pour réaliser les mouvements du joueur
+    onKeyboardEvent: function (event) {
+        // console.log('Key code :', event.keyCode, 'Key :', event.key, 'Code :', event.code);
+        if (event.key === 'ArrowUp') {
+            app.moveForward();
+        }
+        if (event.key === 'ArrowLeft') {
+            app.turnLeft();
+        }
+        if (event.key === 'ArrowRight') {
+            app.turnRight();
+        }
+    },
+
+    // Gestion du game over
+    checkIfGameOver: function () {
+        // on regarde si le joueur a gagné
+        // Donc si il se trouve sur la case targetCell
+        // donc sur les mêmes coordonnées x et y
+        if (app.player.x === app.targetCell.x && app.player.y === app.targetCell.y) {
+            alert('Bravo, c\'est gagné !!!');
+            app.gameOver = true;
+        }
     }
   };
   
